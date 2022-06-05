@@ -8,13 +8,11 @@ data class Post(
     val replyOwnerId: Int,
     val replyPostId: Int,
     val friendsOnly: Int,
-    val comments: Comment = Comment(0, true,
-        true,true, true),
-    val copyright: Copyright = Copyright(0,"link",
-        "name", "type"),
-    val likes: Likes = Likes(0,true, true, true),
-    val reposts: Reposts = Reposts(0,true),
-    val views: Views = Views(0),
+    val comments: Comment?,
+    val copyright: Copyright,
+    val likes: Likes?,
+    val reposts: Reposts?,
+    val views: Views,
     val postType: String,
     val signerId: Int,
     val canPin: Boolean,
@@ -23,12 +21,9 @@ data class Post(
     val isPinned: Int,
     val markedAsAbs: Boolean,
     val isFavortie: Boolean,
-    val donut: Donut = Donut(true,0, Placeholder(),
-        true,"editMode"),
-    val postponedId: Int
-) {
-}
-
+    val donut: Donut,
+    val postponedId: Int,
+)
 class Comment(
     val count: Int,
     val canPost: Boolean,
@@ -63,9 +58,12 @@ class Views(
 class Donut(
     val isDonut: Boolean,
     val paidDuration: Int,
-    val placeholder: Placeholder = Placeholder(),
+    val placeholder: Placeholder,
     val canPublishFreeCopy: Boolean,
     val editMode: String
 )
 
-class Placeholder()
+class Placeholder(
+    val placeholder: String
+)
+

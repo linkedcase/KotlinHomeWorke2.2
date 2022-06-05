@@ -1,88 +1,68 @@
+import WallService.add
 import WallService.posts
-
-private var property: Int = 0
-
-object WallService {
-    var posts = emptyArray<Post>()
-}
+import WallService.update
 
 fun main() {
-    val original = Post(
-        0,
-        0,
-        0,
-        0,
-        0,
-        "ДЗ по ООП",
-        0,
-        0,
-        0,
-        comments = Comment(0,false, false, false,
-            false),
-        copyright = Copyright(0,"Link", "name", "type"),
-        likes = Likes(0,false, false, canPublish = false),
-        reposts = Reposts(0, userReposted = true),
-        views = Views(0),
-        "reply",
-        0,
-        false,
-        false,
-        false,
-        0,
-        false,
-        false,
-        donut = Donut(false, 0, placeholder = Placeholder(),
-            false, "all"), 0)
 
-    val another = Post(
-        5,
-        0,
-        0,
-        0,
-        0,
-        "ДЗ по ООП",
-        0,
-        0,
-        0,
-        comments = Comment(0,false, false, false,
-            false),
-        copyright = Copyright(0,"Link", "name", "type"),
-        likes = Likes(0,false, false, canPublish = false),
-        reposts = Reposts(0, userReposted = true),
-        views = Views(0),
-        "reply",
+    val comments = Comment(
         0,
         false,
         false,
         false,
-        0,
-        false,
-        false,
-        donut = Donut(false, 0, placeholder = Placeholder(),
-            false, "all"), 0)
+        false
+    )
 
-    val originalWithNewId = add(original)
-    val anotherWithNewId = add(another)
+    val copyright = Copyright(
+        0,
+        "Link",
+        "name",
+        "type"
+    )
 
-    update(originalWithNewId)
-    update(anotherWithNewId)
-}
+    val likes = Likes(
+        0,
+        false,
+        false,
+        false
+    )
 
-fun add(post: Post): Post {
-    property = post.id + 1
-    posts += post.copy(id = property)
-    return posts.last()
-}
+    val reposts = Reposts(
+        0,
+        false
+    )
 
-fun update(post: Post): Boolean {
-    val (id) = post
-    for ((index, post) in posts.withIndex()) {
-        if (post.id == id) {
-            posts[index] = post.copy(id = post.id + 1, ownerId = post.ownerId + 1,
-                createdBy = post.createdBy + 1, text = post.text + "New", replyOwnerId = post.replyOwnerId + 1,
-                replyPostId = post.replyPostId + 1)
-            return true
-        }
+    val views = Views(0)
+
+    val donut = Donut(
+        false,
+        0,
+        placeholder = Placeholder("Подписка не оформлена"),
+        false,
+        "all"
+    )
+
+    val firstPost = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0, 0,
+        0, comments, copyright, likes, reposts, views, "post", 0, false,
+        false, false, 0, false, false, donut, 0
+    )
+
+    val secondPost = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0, 0,
+        0, comments, copyright, likes, reposts, views, "post", 0, false,
+        false, false, 0, false, false, donut, 0
+    )
+
+    var firstPostWithNewId = add(firstPost)
+    val secondPostWithNewId = add(secondPost)
+
+    for ((index) in posts.withIndex()) {
+        println(posts[index])
     }
-    return false
+
+    update(firstPostWithNewId)
+    update(secondPostWithNewId)
+
+    println()
+    for ((index) in posts.withIndex()) {
+        println(posts[index])
+    }
 }
