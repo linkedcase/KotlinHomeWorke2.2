@@ -54,7 +54,7 @@ object WallService {
                     canEdit = true,
                     isPinned = post.isPinned + 1,
                     markedAsAbs = true,
-                    isFavortie = true,
+                    isFavorite = true,
                     donut = Donut(
                         true,
                         paidDuration = 0 + 1,

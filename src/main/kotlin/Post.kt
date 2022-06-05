@@ -20,9 +20,10 @@ data class Post(
     val canEdit: Boolean,
     val isPinned: Int,
     val markedAsAbs: Boolean,
-    val isFavortie: Boolean,
+    val isFavorite: Boolean,
     val donut: Donut,
     val postponedId: Int,
+    val attachments: Array<Attachment> = emptyArray()
 )
 class Comment(
     val count: Int,

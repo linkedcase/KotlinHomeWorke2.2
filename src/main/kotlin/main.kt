@@ -41,6 +41,10 @@ fun main() {
         "all"
     )
 
+    val audioTrack = Audio("песня","Певец", "Альбом")
+
+
+
     val firstPost = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0, 0,
         0, comments, copyright, likes, reposts, views, "post", 0, false,
         false, false, 0, false, false, donut, 0
@@ -50,6 +54,7 @@ fun main() {
         0, comments, copyright, likes, reposts, views, "post", 0, false,
         false, false, 0, false, false, donut, 0
     )
+
 
     var firstPostWithNewId = add(firstPost)
     val secondPostWithNewId = add(secondPost)
