@@ -2,6 +2,7 @@ object WallService {
 
     private var postId = 0
     var posts = emptyArray<Post>()
+    var comments = emptyArray<Comment>()
 
     fun add(post: Post): Post {
         postId++
@@ -10,7 +11,7 @@ object WallService {
     }
 
     fun update(post: Post): Boolean {
-        var (id) = post
+        val (id) = post
         for ((index, post) in posts.withIndex()) {
             if (post.id == id) {
                 postId++
@@ -23,12 +24,26 @@ object WallService {
                     replyOwnerId = post.replyOwnerId + 1,
                     replyPostId = post.replyPostId + 1,
                     friendsOnly = post.friendsOnly + 1,
-                    comments = Comment(
-                        count = 0 + 1,
-                        true,
-                        true,
-                        true,
-                        true
+                    comment = Comment(
+                         + 1,
+                        + 1,
+                        2022,
+                        "Новый комментарий",
+                        donut = Donut(
+                            true,
+                            placeholder = Placeholder("placeHolder")
+                        ),
+                        + 1,
+                        + 1,
+                        attachments = emptyArray<Attachment>(),
+                        parentsStack = emptyArray<Int>(),
+                        thread = Thread(
+                            + 1,
+                            items = emptyArray<Comment>(),
+                            true,
+                            true,
+                            true
+                        )
                     ),
                     copyright = Copyright(
                         id = 0 + 1,
@@ -57,15 +72,26 @@ object WallService {
                     isFavorite = true,
                     donut = Donut(
                         true,
-                        paidDuration = 0 + 1,
-                        placeholder = Placeholder("Подптска оформлена"),
-                        true,
-                        "duration"),
-                    postponedId = post.postponedId + 1
+                        placeholder = Placeholder("Подписка оформлена")
+                    ),
+                    postponedId = post.postponedId + 1,
+                    attachments = emptyArray<Attachment>()
                 )
                 return true
             }
         }
         return false
+    }
+
+    fun createComment(postId: Int, comment: Comment): Comment {
+        var targetId = 0
+        for ((index) in posts.withIndex()) {
+            if (postId == posts[index].id) {
+                targetId = postId
+                comments += comment
+            }
+        }
+        if (targetId != postId) {throw PostNotFoundException("No post with id $postId")}
+        return comments.last()
     }
 }

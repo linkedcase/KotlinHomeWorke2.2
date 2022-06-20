@@ -1,4 +1,6 @@
 import WallService.add
+import WallService.comments
+import WallService.createComment
 import WallService.update
 import org.junit.Test
 
@@ -6,45 +8,55 @@ import org.junit.Assert.*
 
 class WallServiceTest {
 
-    val comments = Comment(
-        0,
-        false,
-        false,
-        false,
-        false
-    )
-
-    val copyright = Copyright(
+    private val copyright = Copyright(
         0,
         "Link",
         "name",
         "type"
     )
 
-    val likes = Likes(
+    private val likes = Likes(
         0,
         false,
         false,
         false
     )
 
-    val reposts = Reposts(
+    private val reposts = Reposts(
         0,
         false
     )
 
-    val views = Views(0)
+    private val views = Views(0)
 
-    val donut = Donut(
+    private val donut = Donut(
         false,
-        0,
-        placeholder = Placeholder("Подписка не оформлена"),
-        false,
-        "all"
+        placeholder = Placeholder("test placeholder")
     )
 
-    val post = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0,
-        0, 0, comments, copyright, likes, reposts, views, "post",
+    private val thread = Thread(
+    0,
+    items = emptyArray<Comment>(),
+    false,
+    false,
+    false
+    )
+
+    private val comment = Comment(
+        0,
+        0,
+        0,
+        "test",
+        donut = donut,
+        0,
+        0,
+        attachments = emptyArray<Attachment>(),
+        parentsStack = emptyArray<Int>(),
+        thread = thread
+    )
+
+    private val post = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0,
+        0, 0, comment, copyright, likes, reposts, views, "post",
         0, false, false, false, 0, false, false,
         donut, 0
     )
@@ -53,10 +65,10 @@ class WallServiceTest {
     fun add_postHaveNewId() {
 
         //arrange
-        val post1 = post
+        val testPost = post
 
         //act
-        val postWithNewId = add(post1)
+        val postWithNewId = add(testPost)
         val (newId) = postWithNewId
 
         //assert
@@ -66,10 +78,10 @@ class WallServiceTest {
     @Test
     fun update_ExistingPost() {
         //arrange
-        val post2 = post
+        val testPost = post
 
         //act
-        val ExistingPost = add(post2)
+        val ExistingPost = add(testPost)
         val result = update(ExistingPost)
 
         // assert
@@ -79,12 +91,33 @@ class WallServiceTest {
     @Test
     fun notUpdate_Post() {
         //arrange
-        val post3 = post
+        val testPost = post
 
         //act
-        val result = update(post3)
+        val result = update(testPost)
 
         // assert
         assertFalse(result)
+    }
+
+    @Test
+    fun addCommentInPost() {
+        //arrange
+        val testComment = comment
+
+        //act
+        val result = createComment(2,testComment)
+
+        //assert
+        for ((index) in comments.withIndex()) {
+            assertEquals(comments[index], result)
+        }
+    }
+
+
+    @Test(expected = PostNotFoundException::class)
+    // act
+    fun shouldIdThrow() {
+        createComment(5, comment)
     }
 }

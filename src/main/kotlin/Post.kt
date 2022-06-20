@@ -8,7 +8,7 @@ data class Post(
     val replyOwnerId: Int,
     val replyPostId: Int,
     val friendsOnly: Int,
-    val comments: Comment?,
+    val comment: Comment?,
     val copyright: Copyright,
     val likes: Likes?,
     val reposts: Reposts?,
@@ -24,13 +24,34 @@ data class Post(
     val donut: Donut,
     val postponedId: Int,
     val attachments: Array<Attachment> = emptyArray()
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Post
+
+        if (!attachments.contentEquals(other.attachments)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return attachments.contentHashCode()
+    }
+}
+
 class Comment(
-    val count: Int,
-    val canPost: Boolean,
-    val groupsCanPost: Boolean,
-    val canClose: Boolean,
-    val canOpen: Boolean
+    val id: Int,
+    val fromId: Int,
+    val date: Int,
+    val text: String,
+    val donut: Donut,
+    val replyToUser: Int,
+    val replyToComment: Int,
+    val attachments: Array<Attachment>,
+    val parentsStack: Array<Int>,
+    val thread: Thread
 )
 
 class Copyright(
@@ -57,14 +78,19 @@ class Views(
 )
 
 class Donut(
-    val isDonut: Boolean,
-    val paidDuration: Int,
-    val placeholder: Placeholder,
-    val canPublishFreeCopy: Boolean,
-    val editMode: String
+    val isDon: Boolean,
+    val placeholder: Placeholder
 )
 
 class Placeholder(
     val placeholder: String
+)
+
+class Thread(
+    val count: Int,
+    val items: Array<Comment>,
+    val canPost: Boolean,
+    val showReplyButton: Boolean,
+    val groupsCanPost: Boolean
 )
 

@@ -1,16 +1,10 @@
 import WallService.add
+import WallService.comments
+import WallService.createComment
 import WallService.posts
 import WallService.update
 
 fun main() {
-
-    val comments = Comment(
-        0,
-        false,
-        false,
-        false,
-        false
-    )
 
     val copyright = Copyright(
         0,
@@ -35,28 +29,42 @@ fun main() {
 
     val donut = Donut(
         false,
-        0,
-        placeholder = Placeholder("Подписка не оформлена"),
-        false,
-        "all"
+        placeholder = Placeholder("placeholder")
     )
 
-    val audioTrack = Audio("песня","Певец", "Альбом")
+    val comment = Comment(
+        0,
+        0,
+        0,
+        "text",
+        donut = donut,
+        0,
+        0,
+        attachments = emptyArray<Attachment>(),
+        parentsStack = emptyArray<Int>(),
+        thread = Thread(
+            0,
+            items = emptyArray<Comment>(),
+            false,
+            false,
+            false
+        )
+    )
 
-
+    val audioTrack = Audio("Название композиции","Певец", "Альбом")
 
     val firstPost = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0, 0,
-        0, comments, copyright, likes, reposts, views, "post", 0, false,
+        0, comment, copyright, likes, reposts, views, "post", 0, false,
         false, false, 0, false, false, donut, 0
     )
 
     val secondPost = Post(0, 0, 0, 0, 0, "ДЗ по ООП", 0, 0,
-        0, comments, copyright, likes, reposts, views, "post", 0, false,
+        0, comment, copyright, likes, reposts, views, "post", 0, false,
         false, false, 0, false, false, donut, 0
     )
 
 
-    var firstPostWithNewId = add(firstPost)
+    val firstPostWithNewId = add(firstPost)
     val secondPostWithNewId = add(secondPost)
 
     for ((index) in posts.withIndex()) {
@@ -69,5 +77,12 @@ fun main() {
     println()
     for ((index) in posts.withIndex()) {
         println(posts[index])
+    }
+
+    createComment(2, comment)
+
+    println()
+    for ((index) in comments.withIndex()) {
+        println(comments[index])
     }
 }
